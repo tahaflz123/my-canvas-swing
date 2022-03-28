@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import com.mycanvas.shape.Shape;
 import com.mycanvas.shape.ShapeType;
@@ -68,16 +69,6 @@ public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 	public void repaint() {
 		super.repaint();
 	}
-	
-	public void deleteShape(Point location) {
-		Rectangle rectangle = new Rectangle((int) location.getX(),(int) location.getY(), 20, 20);
-		System.err.println(rectangle.toString());
-		for(Shape shape : shapes) {
-			if(rectangle.contains(new Rectangle((int) shape.getLocation().getX(), (int) shape.getLocation().getY(), 20, 20))) {
-				System.err.println("contains");
-			}
-		}
-	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -123,10 +114,17 @@ public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.err.println(e.getButton());
+		
+		if(SwingUtilities.isLeftMouseButton(e)) {
 			shapes.add(new Shape(e.getPoint(), color, shapeWidth, shapeHeight, shapeType));
+			mouseMoved(e);
 			repaint();
 			System.err.println(e.getPoint());
+		}if(SwingUtilities.isRightMouseButton(e)) {
+			shapes.add(new Shape(e.getPoint(), new Color(0,0,0), shapeWidth, shapeHeight, shapeType));
+			repaint();
+		}
+		System.err.println(e.getButton());
 	}
 
 	@Override
