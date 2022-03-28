@@ -12,6 +12,9 @@ import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
+import com.mycanvas.shape.Shape;
+import com.mycanvas.shape.ShapeType;
+
 public class FileUtil {
 	
 	public static boolean saveAsFile(List<Shape> shapes) {
@@ -26,7 +29,7 @@ public class FileUtil {
 			FileOutputStream fos = new FileOutputStream(file);
 			for(Shape shape: shapes) {
 				String keyword = shape.getLocation().x + "," + shape.getLocation().y + "," + shape.getColor().getRed()
-					+ "," + shape.getColor().getGreen() + "," + shape.getColor().getBlue()+ "," + shape.getWidth() + "," + shape.getHeight()+"\n";
+					+ "," + shape.getColor().getGreen() + "," + shape.getColor().getBlue()+ "," + shape.getWidth() + "," + shape.getHeight() + "," + shape.getShapeType().toString() +  "\n";
 				fos.write(keyword.getBytes());
 			}
 			fos.close();
@@ -53,7 +56,8 @@ public class FileUtil {
 				String s = scanner.next();
 				String[] location =  s.split(",");
 				Shape shape = new Shape(new Point(Integer.valueOf(location[0]), Integer.valueOf(location[1])),
-						new Color(Integer.valueOf(location[2]),Integer.valueOf(location[3]), Integer.valueOf(location[4])),Integer.valueOf(location[5]),Integer.valueOf(location[6]));
+						new Color(Integer.valueOf(location[2]),Integer.valueOf(location[3]), Integer.valueOf(location[4])),Integer.valueOf(location[5]),Integer.valueOf(location[6])
+						,ShapeType.valueOf(location[7]));
 				shapes.add(shape);
 				reading = scanner.hasNext();
 			}

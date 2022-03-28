@@ -27,13 +27,4 @@ public class Main {
 		window.setVisible(true);
 		window.addKeyListener(canvas);
 	}
-	
-	public void update() {
-		while(true) {
-			canvas.paint(canvas.getGraphics());
-		}
-	}
-	
-	
-	
 }

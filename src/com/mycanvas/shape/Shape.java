@@ -1,4 +1,4 @@
-package com.mycanvas;
+package com.mycanvas.shape;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -12,12 +12,16 @@ public class Shape {
 	private int width = 5;
 	
 	private int height = 5;
+	
+	private ShapeType shapeType;
+	
 
-	public Shape(Point location, Color color, int width, int height) {
+	public Shape(Point location, Color color, int width, int height, ShapeType shapeType) {
 		this.location = location;
 		this.color = color;
 		this.width = width;
 		this.height = height;
+		this.shapeType = shapeType;
 	}
 
 	public Point getLocation() {
@@ -48,6 +52,12 @@ public class Shape {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	public void setShapeType(ShapeType shapeType) {
+		this.shapeType = shapeType;
+	}
 	
+	public ShapeType getShapeType() {
+		return shapeType;
+	}
 	
 }

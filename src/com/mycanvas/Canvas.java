@@ -18,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.mycanvas.shape.Shape;
+import com.mycanvas.shape.ShapeType;
+
 public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 
 	
@@ -25,9 +28,10 @@ public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 	
 	public List<Shape> shapes = new ArrayList<>();
 	private Dimension dimension;
-	private Color color = Color.WHITE;
+	private Color color = new Color(255,255,255);
 	private int shapeWidth = 15;
 	private int shapeHeight = 15;
+	private ShapeType shapeType = ShapeType.CIRCLE;
 	
 	
 	public Canvas(Dimension dimension) {
@@ -50,7 +54,11 @@ public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 		super.paint(g);
 		for(Shape shape : shapes) {
 			g.setColor(shape.getColor());
-			g.fillOval(shape.getLocation().x, shape.getLocation().y, shape.getWidth(), shape.getHeight());
+			if(shape.getShapeType() == ShapeType.CIRCLE) {
+				g.fillOval(shape.getLocation().x, shape.getLocation().y, shape.getWidth(), shape.getHeight());
+			}else if(shape.getShapeType() == ShapeType.RECT) {
+				g.fillRect(shape.getLocation().x, shape.getLocation().y, shape.getWidth(), shape.getHeight());
+			}
 			System.err.println(shape.toString());
 		}
 	}
@@ -91,6 +99,14 @@ public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 			shapes.removeAll(shapes);
 			repaint();
 		}
+		if(e.getKeyCode() == KeyEvent.VK_R) {
+			if(shapeType.equals(ShapeType.CIRCLE)) {
+				shapeType = ShapeType.RECT;
+			}else{
+				shapeType = ShapeType.CIRCLE;
+			}
+			System.err.println(shapeType);
+		}
 		if(e.getKeyCode() == KeyEvent.VK_S) {
 			FileUtil.saveAsFile(shapes);
 		}
@@ -107,7 +123,8 @@ public class Canvas extends JPanel implements MouseMotionListener, KeyListener {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-			shapes.add(new Shape(e.getPoint(), color, shapeWidth, shapeHeight));
+		System.err.println(e.getButton());
+			shapes.add(new Shape(e.getPoint(), color, shapeWidth, shapeHeight, shapeType));
 			repaint();
 			System.err.println(e.getPoint());
 	}
